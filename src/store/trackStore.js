@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { pauseAnimation } from '../utils/pauseAnimation';
+import { pauseAnimation, resumeAnimation } from '../utils/controlAnimation';
 
 class TrackStore {
     currentTrack = null;
@@ -21,6 +21,7 @@ class TrackStore {
         this.audio.volume = this.volume;
         this.audio.play();
         this.isPlaying = true;
+        resumeAnimation();
 
         this.audio.ontimeupdate = () => {
             runInAction(() => {
@@ -50,6 +51,7 @@ class TrackStore {
             } else {
                 this.audio.play();
                 this.isPlaying = true;
+                resumeAnimation();
             }
         } else {
             this.playTrack(track);
